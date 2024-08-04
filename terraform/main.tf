@@ -54,7 +54,7 @@ locals {
 
 resource "null_resource" "build_lambda_layers" {
   triggers = {
-    layer_build = "${md5(file("${local.layers_path}"/package.json))}"
+    layer_build = "${md5(file("${local.layers_path}/package.json"))}"
   }
 
   provisioner "local-exec" {
@@ -70,7 +70,7 @@ resource "aws_lambda_layer_version" "this" {
 
   compatible_runtimes = ["${local.runtime}"]
 
-  depends_on = [ "null_resource.build_lambda_layers" ]
+  depends_on = [ null_resource.build_lambda_layers ]
 }
 
 data "archive_file" "convert-date" {
@@ -86,21 +86,19 @@ data "archive_file" "convert-date" {
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_for_lambda"
 
-  assume_role_policy = <<EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
       {
-        "Action": "sts:AssumeRole",
-        "Principal": {
-          "Service": "lambda.amazonaws.com"
-        },
-        "Effect": "Allow",
-        "Sid": ""
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid = ""
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
       }
     ]
-  }
-  EOF
+  })
 }
 
 resource "aws_lambda_function" "convert-date" {
