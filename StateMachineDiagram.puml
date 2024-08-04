@@ -1,0 +1,23 @@
+@startuml
+[*] --> NEW : start
+NEW --> VALIDATED : VALIDATE
+NEW --> CANCELLED : CANCEL
+
+VALIDATED --> PAID : PAY
+VALIDATED --> CANCELLED : CANCEL
+
+PAID --> SHIPPED : SHIP
+PAID --> CANCELLED : CANCEL
+
+SHIPPED --> COMPLETED : COMPLETE
+
+COMPLETED --> [*] : end
+CANCELLED --> [*] : end
+
+state NEW : Initial state
+state VALIDATED : Order validated
+state PAID : Payment processed
+state SHIPPED : Order shipped
+state COMPLETED : Order completed
+state CANCELLED : Order canceled
+@enduml
