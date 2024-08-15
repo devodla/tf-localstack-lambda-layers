@@ -231,5 +231,3 @@ Apply complete! Resources: 3 added, 0 changed, 1 destroyed.
     ]
 }
 ```
-
-![SSM](image.png)
