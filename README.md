@@ -97,7 +97,7 @@ For created in localstack using version pro wih hobby license.
 
 After change name of second deploy terraform and after execute: terraform plan
 
-```json
+```terraform
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
 -/+ destroy and then create replacement
 
@@ -139,7 +139,7 @@ Apply complete! Resources: 3 added, 0 changed, 3 destroyed.
 
 ## After executing the terraform in first deploy
 
-```json
+```terraform
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
   + create
 -/+ destroy and then create replacement
