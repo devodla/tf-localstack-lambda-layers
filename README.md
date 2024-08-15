@@ -231,3 +231,37 @@ Apply complete! Resources: 3 added, 0 changed, 1 destroyed.
     ]
 }
 ```
+
+# Cause
+
+## In second deploy in terraform plan show 1 add and 1 change (rule same name with existing)
+
+```terraform
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_cloudwatch_event_rule.profile_generator_lambda_event_rule_second will be updated in-place
+  ~ resource "aws_cloudwatch_event_rule" "profile_generator_lambda_event_rule_second" {
+        id                  = "profile-generator-lambda-event-rule"
+        name                = "profile-generator-lambda-event-rule"
+      ~ schedule_expression = "cron(15 03 ? * * *)" -> "cron(0 12 ? * * *)"
+        tags                = {}
+        # (8 unchanged attributes hidden)
+    }
+
+  # aws_cloudwatch_event_target.profile_generator_lambda_target_second will be created
+  + resource "aws_cloudwatch_event_target" "profile_generator_lambda_target_second" {
+      + arn            = "arn:aws:lambda:sa-east-1:000000000000:function:convert-date-second"
+      + event_bus_name = "default"
+      + id             = (known after apply)
+      + rule           = "profile-generator-lambda-event-rule"
+      + target_id      = (known after apply)
+    }
+
+Plan: 1 to add, 1 to change, 0 to destroy.
+
+Apply complete! Resources: 1 added, 1 changed, 0 destroyed.
+```
